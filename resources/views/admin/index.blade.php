@@ -1,5 +1,6 @@
+@section('title', 'Dashboard')
 <x-admin-layout>
     <div>
-        sdsdsd
+        content here....
     </div>
 </x-admin-layout>

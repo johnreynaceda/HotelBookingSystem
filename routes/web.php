@@ -33,6 +33,9 @@ Route::prefix('administrator')->group(
         Route::get('/dashboard', function () {
             return view('admin.index');
         })->name('admin.dashboard');
+        Route::get('/rooms', function () {
+            return view('admin.rooms');
+        })->name('admin.rooms');
     }
 );
 

@@ -57,13 +57,20 @@
                         </a>
                         <a class="px-2 py-2 text-sm text-gray-500 lg:px-6 md:px-3 hover:text-main lg:ml-auto"
                             href="#">
-                            About
+                            Reservation
                         </a>
 
                         <a class="px-2 py-2 text-sm text-gray-500 lg:px-6 md:px-3 hover:text-main" href="#">
-                            Blog
+                            FAQ
                         </a>
 
+                        <a class="px-2 py-2 text-sm text-gray-500 lg:px-6 md:px-3 hover:text-main" href="#">
+                            Comments
+                        </a>
+
+                        <a class="px-2 py-2 text-sm text-gray-500 lg:px-6 md:px-3 hover:text-main" href="#">
+                            Others
+                        </a>
 
                         <a href="{{ route('login') }}"
                             class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-main rounded-full group focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 hover:bg-main active:bg-main active:text-white focus-visible:outline-black">
@@ -86,30 +93,10 @@
         </div>
 
     </div>
-    <div class="2xl:mx-40 mb-20 2xl:mt-20 mt-10 mx-10 relative">
-        <div>
-            <header class="2xl:text-4xl text-2xl font-riot text-gray-700">About JIMROCK </header>
-            <div class="w-20 h-1 bg-yellow-600 mt-2"></div>
-        </div>
-        <p class="mt-5 text-xl 2xl:px-10 2xl:leading-loose text-gray-600  text-justify indent-10">
-            <span class="2xl:text-3xl text-2xl text-yellow-700 font-bold font-riot">Welcome</span> to JIMROCK
-            Dorms & Apartments, where
-            comfort meets
-            convenience. Whether you're a student
-            seeking a cozy dormitory or a traveler in need of a transient stay, our spaces, backed by the trusted Le
-            Patisserie brand, offer a delightful blend of quality and warmth. Enjoy a unique accommodation experience
-            tailored to your needs, always with a touch of Le Patisserie's renowned hospitality.
-        </p>
-        <p class="mt-5 text-xl 2xl:px-10  text-gray-600 2xl:leading-loose text-justify indent-10">
-            At JIMROCK Dorm & Apartments, we redefine living spaces with a perfect fusion of comfort and
-            style. Whether it's a short-term escape or a cozy dormitory, immerse yourself in the charm of Le
-            Patisserie's accommodations, where every stay is a delightful experience.
-        </p>
-    </div>
     <div class="2xl:mx-40 mx-10 my-20 relative">
         <header class="text-4xl font-riot text-gray-700">Our Rooms</header>
         <div class="w-20 h-1 bg-yellow-600 mt-2"></div>
-        <div class="mt-5 grid 2xl:grid-cols-5 grid-cols-1 gap-5">
+        <div class="mt-5 grid 2xl:grid-cols-4 grid-cols-1 gap-8">
             <div class=" rounded-xl bg-white bg-opacity-50 relative  overflow-hidden">
                 <div class="absolute top-3 left-3 shadow-xl h-16 w-16 rounded-full bg-white">
                     <button class="grid place-content-center w-full h-full fill-gray-700 hover:fill-red-300 group">
@@ -232,6 +219,27 @@
 
         </div>
     </div>
+    <div class="2xl:mx-40 mb-20 2xl:mt-20 mt-10 mx-10 relative">
+        <div>
+            <header class="2xl:text-4xl text-2xl font-riot text-gray-700">About JIMROCK </header>
+            <div class="w-20 h-1 bg-yellow-600 mt-2"></div>
+        </div>
+        <p class="mt-5 text-xl 2xl:px-10 2xl:leading-loose text-gray-600  text-justify indent-10">
+            <span class="2xl:text-3xl text-2xl text-yellow-700 font-bold font-riot">Welcome</span> to JIMROCK
+            Dorms & Apartments, where
+            comfort meets
+            convenience. Whether you're a student
+            seeking a cozy dormitory or a traveler in need of a transient stay, our spaces, backed by the trusted Le
+            Patisserie brand, offer a delightful blend of quality and warmth. Enjoy a unique accommodation experience
+            tailored to your needs, always with a touch of Le Patisserie's renowned hospitality.
+        </p>
+        <p class="mt-5 text-xl 2xl:px-10  text-gray-600 2xl:leading-loose text-justify indent-10">
+            At JIMROCK Dorm & Apartments, we redefine living spaces with a perfect fusion of comfort and
+            style. Whether it's a short-term escape or a cozy dormitory, immerse yourself in the charm of Le
+            Patisserie's accommodations, where every stay is a delightful experience.
+        </p>
+    </div>
+
     </div>
 
     <footer class="border-t bg-main">
