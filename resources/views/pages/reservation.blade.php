@@ -52,71 +52,15 @@
                 <x-shared.navbar />
             </div>
         </div>
-        <div
-            class="mx-auto 2xl:mx-40 bg-gradient-to-br from-black via-main to-gray-100 rounded-3xl overflow-hidden shadow-xl  2xl:py-72 py-56 relative">
-            <img src="{{ asset('images/bg1.jpg') }}"
-                class="absolute object-cover top-0 left-0  w-full h-full opacity-30 " alt="">
-            <div class="absolute text-white 2xl:top-20 2xl:left-10 left-5 bottom-5">
-                <h1 class="2xl:text-5xl text-2xl font-riot">HAVEN OF COMFORT AND CONVENIENCE</h1>
-                <p>
-                    Your Home Away from Home
-                </p>
+
+        <main class="2xl:mx-auto 2xl:max-w-7xl mx-5 2xl:my-10 my-5  relative">
+            <header class="font-bold 2xl:text-3xl text-2xl uppercase text-main font-riot">Reservation</header>
+            <div class="2xl:mt-10 mt-5">
+                <livewire:reservation />
             </div>
-        </div>
-
+        </main>
     </div>
-    <div class="2xl:mx-40 mx-10 my-20 relative">
-        <header class="text-4xl font-riot text-gray-700">Our Rooms</header>
-        <div class="w-20 h-1 bg-yellow-600 mt-2"></div>
-        <div class="mt-5 grid 2xl:grid-cols-4 grid-cols-1 gap-8">
-            @forelse (\App\Models\Room::get() as $item)
-                <div class=" rounded-xl bg-white bg-opacity-50 relative  overflow-hidden">
-                    <div class="absolute top-3 left-3 shadow-xl h-16 w-16 rounded-full bg-white">
-                        <button class="grid place-content-center w-full h-full fill-gray-700 hover:fill-red-300 group">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                class="h-8 w-8 group-hover:fill-red-400">
-                                <path
-                                    d="M16.5 3C19.5376 3 22 5.5 22 9C22 16 14.5 20 12 21.5C9.5 20 2 16 2 9C2 5.5 4.5 3 7.5 3C9.35997 3 11 4 12 5C13 4 14.64 3 16.5 3ZM12.9339 18.6038C13.8155 18.0485 14.61 17.4955 15.3549 16.9029C18.3337 14.533 20 11.9435 20 9C20 6.64076 18.463 5 16.5 5C15.4241 5 14.2593 5.56911 13.4142 6.41421L12 7.82843L10.5858 6.41421C9.74068 5.56911 8.5759 5 7.5 5C5.55906 5 4 6.6565 4 9C4 11.9435 5.66627 14.533 8.64514 16.9029C9.39 17.4955 10.1845 18.0485 11.0661 18.6038C11.3646 18.7919 11.6611 18.9729 12 19.1752C12.3389 18.9729 12.6354 18.7919 12.9339 18.6038Z">
-                                </path>
-                            </svg>
-                        </button>
-                    </div>
-                    <img src="{{ Storage::url($item->photo_path) }}" class="h-56 w-full rounded-b-xl shadow-xl"
-                        alt="">
-                    <div class="my-3 ">
-                        <h1 class="font-semibold text-lg text-gray-700">{{ $item->name }}</h1>
-                        <h1 class="font-medium text-yellow-600">&#8369;{{ number_format($item->price, 2) }}/hr</h1>
-                        <p>{{ $item->description }}</p>
-                    </div>
-                </div>
-            @empty
-            @endforelse
-
-        </div>
     </div>
-    <div class="2xl:mx-40 mb-20 2xl:mt-20 mt-10 mx-10 relative">
-        <div>
-            <header class="2xl:text-4xl text-2xl font-riot text-gray-700">About JIMROCK </header>
-            <div class="w-20 h-1 bg-yellow-600 mt-2"></div>
-        </div>
-        <p class="mt-5 text-xl 2xl:px-10 2xl:leading-loose text-gray-600  text-justify indent-10">
-            <span class="2xl:text-3xl text-2xl text-yellow-700 font-bold font-riot">Welcome</span> to JIMROCK
-            Dorms & Apartments, where
-            comfort meets
-            convenience. Whether you're a student
-            seeking a cozy dormitory or a traveler in need of a transient stay, our spaces, backed by the trusted Le
-            Patisserie brand, offer a delightful blend of quality and warmth. Enjoy a unique accommodation experience
-            tailored to your needs, always with a touch of Le Patisserie's renowned hospitality.
-        </p>
-        <p class="mt-5 text-xl 2xl:px-10  text-gray-600 2xl:leading-loose text-justify indent-10">
-            At JIMROCK Dorm & Apartments, we redefine living spaces with a perfect fusion of comfort and
-            style. Whether it's a short-term escape or a cozy dormitory, immerse yourself in the charm of Le
-            Patisserie's accommodations, where every stay is a delightful experience.
-        </p>
-    </div>
-
-    </div>
-
     <footer class="border-t bg-main">
         <div class="px-4  mx-auto max-w-7xl sm:px-6 lg:px-16">
             <div

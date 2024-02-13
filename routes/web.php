@@ -16,7 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
+Route::get('/reservation', function () {
+    return view('pages.reservation');
+})->name('reservation');
 
 Route::get('/dashboard', function () {
     if (auth()->user()->is_admin == true) {
@@ -25,6 +28,7 @@ Route::get('/dashboard', function () {
         dd('user');
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 
 //admin routes
@@ -36,6 +40,9 @@ Route::prefix('administrator')->group(
         Route::get('/rooms', function () {
             return view('admin.rooms');
         })->name('admin.rooms');
+        Route::get('/users', function () {
+            return view('admin.users');
+        })->name('admin.users');
     }
 );
 

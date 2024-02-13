@@ -119,8 +119,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-gray-500 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main"
-                                        href="#">
+                                    <a class="{{ request()->routeIs('admin.users') ? 'bg-gray-100 text-main scale-95' : '' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-gray-500 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main"
+                                        href="{{ route('admin.users') }}">
                                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             fill="currentColor" aria-hidden="true">
                                             <path
