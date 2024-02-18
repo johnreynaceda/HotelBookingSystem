@@ -28,7 +28,7 @@ class UserList extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(User::query())->headerActions([
+            ->query(User::query()->where('is_admin', false))->headerActions([
                 CreateAction::make('new_user')->label('New Users')->icon('heroicon-s-user-plus')->action(
                     function($record, $data){
                         User::create([
@@ -65,7 +65,15 @@ class UserList extends Component implements HasForms, HasTable
                 // ...
             ])
             ->actions([
-                EditAction::make('edit')->color('success'),
+                EditAction::make('edit')->color('success')->form([
+                    TextInput::make('name')->required(),
+                    TextInput::make('email')->required()->email(),
+                    TextInput::make('password')->required()->password(),
+                    Select::make('account_type')->options([
+                        1 => 'Admin',
+                        0 => 'Staff',
+                    ])
+                ])->modalWidth('xl'),
                 DeleteAction::make('delete'),
             ])
             ->bulkActions([

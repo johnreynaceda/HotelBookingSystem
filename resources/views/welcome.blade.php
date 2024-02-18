@@ -49,7 +49,7 @@
                         </svg>
                     </button>
                 </div>
-                <x-shared.navbar />
+                <livewire:navbar />
             </div>
         </div>
         <div

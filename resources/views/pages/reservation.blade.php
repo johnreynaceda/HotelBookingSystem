@@ -49,7 +49,7 @@
                         </svg>
                     </button>
                 </div>
-                <x-shared.navbar />
+                <livewire:navbar />
             </div>
         </div>
 
@@ -107,7 +107,7 @@
             </div>
         </div>
     </footer>
-
+    <x-dialog z-index="z-50" blur="md" align="center" />
     @filamentScripts
     @vite('resources/js/app.js')
 </body>
