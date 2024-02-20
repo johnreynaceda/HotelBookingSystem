@@ -56,7 +56,11 @@
                         <div class="py-2 pb-5  flex flex-col items-center justify-center">
                             <img src="{{ asset('images/hotel_logo.jpg') }}" class="h-20" alt="">
                             <div>
-                                <span class="text-sm font-medium text-gray-500">Administrator</span>
+                                @if (auth()->user()->is_admin == true)
+                                    <span class="text-sm font-medium text-gray-500">Administrator</span>
+                                @else
+                                    <span class="text-sm font-medium text-gray-500">Staff</span>
+                                @endif
                             </div>
                         </div>
                         <nav class="flex-1 space-y-1 bg-white">
@@ -85,8 +89,8 @@
                             </p>
                             <ul>
                                 <li>
-                                    <a class="{{ request()->routeIs('admin.rooms') ? 'bg-gray-100 text-main scale-95' : '' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-gray-500 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main"
-                                        href="{{ route('admin.rooms') }}">
+                                    <a class="{{ request()->routeIs('admin.rooms') || request()->routeIs('user.room') ? 'bg-gray-100 text-main scale-95' : '' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-gray-500 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main"
+                                        href="{{ auth()->user()->user_type == 'admin' ? route('admin.rooms') : route('user.room') }}">
                                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             fill="currentColor" aria-hidden="true">
                                             <path
@@ -102,8 +106,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="{{ request()->routeIs('admin.reservation') ? 'bg-gray-100 text-main scale-95' : '' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-gray-500 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main"
-                                        href="{{ route('admin.reservation') }}">
+                                    <a class="{{ request()->routeIs('admin.reservation') || request()->routeIs('user.reservation') ? 'bg-gray-100 text-main scale-95' : '' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-gray-500 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main"
+                                        href="{{ auth()->user()->user_type == 'admin' ? route('admin.reservation') : route('user.reservation') }}">
                                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             fill="currentColor" aria-hidden="true">
                                             <path
@@ -118,90 +122,96 @@
                                         </span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a class="{{ request()->routeIs('admin.users') ? 'bg-gray-100 text-main scale-95' : '' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-gray-500 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main"
-                                        href="{{ route('admin.users') }}">
-                                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                            fill="currentColor" aria-hidden="true">
-                                            <path
-                                                d="M22 7.81v8.38c0 2.81-1.29 4.74-3.56 5.47-.66.23-1.42.34-2.25.34H7.81c-.83 0-1.59-.11-2.25-.34C3.29 20.93 2 19 2 16.19V7.81C2 4.17 4.17 2 7.81 2h8.38C19.83 2 22 4.17 22 7.81z"
-                                                opacity=".4"></path>
-                                            <path
-                                                d="M18.44 21.66c-.66.23-1.42.34-2.25.34H7.81c-.83 0-1.59-.11-2.25-.34.35-2.64 3.11-4.69 6.44-4.69 3.33 0 6.09 2.05 6.44 4.69zM15.58 11.58c0 1.98-1.6 3.59-3.58 3.59s-3.58-1.61-3.58-3.59C8.42 9.6 10.02 8 12 8s3.58 1.6 3.58 3.58z">
-                                            </path>
-                                        </svg>
-                                        <span class="ml-4">
-                                            Users
-                                        </span>
-                                    </a>
-                                </li>
+                                @if (auth()->user()->is_admin == true)
+                                    <li>
+                                        <a class="{{ request()->routeIs('admin.users') ? 'bg-gray-100 text-main scale-95' : '' }} inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-gray-500 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main"
+                                            href="{{ route('admin.users') }}">
+                                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                fill="currentColor" aria-hidden="true">
+                                                <path
+                                                    d="M22 7.81v8.38c0 2.81-1.29 4.74-3.56 5.47-.66.23-1.42.34-2.25.34H7.81c-.83 0-1.59-.11-2.25-.34C3.29 20.93 2 19 2 16.19V7.81C2 4.17 4.17 2 7.81 2h8.38C19.83 2 22 4.17 22 7.81z"
+                                                    opacity=".4"></path>
+                                                <path
+                                                    d="M18.44 21.66c-.66.23-1.42.34-2.25.34H7.81c-.83 0-1.59-.11-2.25-.34.35-2.64 3.11-4.69 6.44-4.69 3.33 0 6.09 2.05 6.44 4.69zM15.58 11.58c0 1.98-1.6 3.59-3.58 3.59s-3.58-1.61-3.58-3.59C8.42 9.6 10.02 8 12 8s3.58 1.6 3.58 3.58z">
+                                                </path>
+                                            </svg>
+                                            <span class="ml-4">
+                                                Users
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
 
                             </ul>
 
-                            <p class="px-4 pt-10 text-xs font-semibold text-gray-400 uppercase">
-                                Reports
-                            </p>
-                            <ul>
-                                <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-gray-500 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main"
-                                        href="#">
-                                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                            fill="currentColor" aria-hidden="true">
-                                            <path
-                                                d="M21.66 10.44l-.98 4.18c-.84 3.61-2.5 5.07-5.62 4.77-.5-.04-1.04-.13-1.62-.27l-1.68-.4c-4.17-.99-5.46-3.05-4.48-7.23l.98-4.19c.2-.85.44-1.59.74-2.2 1.17-2.42 3.16-3.07 6.5-2.28l1.67.39c4.19.98 5.47 3.05 4.49 7.23z"
-                                                opacity=".4"></path>
-                                            <path
-                                                d="M15.06 19.39c-.62.42-1.4.77-2.35 1.08l-1.58.52c-3.97 1.28-6.06.21-7.35-3.76L2.5 13.28c-1.28-3.97-.22-6.07 3.75-7.35l1.58-.52c.41-.13.8-.24 1.17-.31-.3.61-.54 1.35-.74 2.2l-.98 4.19c-.98 4.18.31 6.24 4.48 7.23l1.68.4c.58.14 1.12.23 1.62.27zM17.49 10.51c-.06 0-.12-.01-.19-.02l-4.85-1.23a.75.75 0 01.37-1.45l4.85 1.23a.748.748 0 01-.18 1.47z">
-                                            </path>
-                                            <path
-                                                d="M14.56 13.89c-.06 0-.12-.01-.19-.02l-2.91-.74a.75.75 0 01.37-1.45l2.91.74c.4.1.64.51.54.91-.08.34-.38.56-.72.56z">
-                                            </path>
-                                        </svg>
-                                        <span class="ml-4">
-                                            Reports
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-gray-500 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main"
-                                        href="#">
-                                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                            fill="currentColor" aria-hidden="true">
-                                            <path
-                                                d="M21.66 10.44l-.98 4.18c-.84 3.61-2.5 5.07-5.62 4.77-.5-.04-1.04-.13-1.62-.27l-1.68-.4c-4.17-.99-5.46-3.05-4.48-7.23l.98-4.19c.2-.85.44-1.59.74-2.2 1.17-2.42 3.16-3.07 6.5-2.28l1.67.39c4.19.98 5.47 3.05 4.49 7.23z"
-                                                opacity=".4"></path>
-                                            <path
-                                                d="M15.06 19.39c-.62.42-1.4.77-2.35 1.08l-1.58.52c-3.97 1.28-6.06.21-7.35-3.76L2.5 13.28c-1.28-3.97-.22-6.07 3.75-7.35l1.58-.52c.41-.13.8-.24 1.17-.31-.3.61-.54 1.35-.74 2.2l-.98 4.19c-.98 4.18.31 6.24 4.48 7.23l1.68.4c.58.14 1.12.23 1.62.27zM17.49 10.51c-.06 0-.12-.01-.19-.02l-4.85-1.23a.75.75 0 01.37-1.45l4.85 1.23a.748.748 0 01-.18 1.47z">
-                                            </path>
-                                            <path
-                                                d="M14.56 13.89c-.06 0-.12-.01-.19-.02l-2.91-.74a.75.75 0 01.37-1.45l2.91.74c.4.1.64.51.54.91-.08.34-.38.56-.72.56z">
-                                            </path>
-                                        </svg>
-                                        <span class="ml-4">
-                                            Comments
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
+                            @if (auth()->user()->is_admin == true)
+                                <p class="px-4 pt-10 text-xs font-semibold text-gray-400 uppercase">
+                                    Reports
+                                </p>
+                                <ul>
+                                    <li>
+                                        <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-gray-500 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main"
+                                            href="#">
+                                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                fill="currentColor" aria-hidden="true">
+                                                <path
+                                                    d="M21.66 10.44l-.98 4.18c-.84 3.61-2.5 5.07-5.62 4.77-.5-.04-1.04-.13-1.62-.27l-1.68-.4c-4.17-.99-5.46-3.05-4.48-7.23l.98-4.19c.2-.85.44-1.59.74-2.2 1.17-2.42 3.16-3.07 6.5-2.28l1.67.39c4.19.98 5.47 3.05 4.49 7.23z"
+                                                    opacity=".4"></path>
+                                                <path
+                                                    d="M15.06 19.39c-.62.42-1.4.77-2.35 1.08l-1.58.52c-3.97 1.28-6.06.21-7.35-3.76L2.5 13.28c-1.28-3.97-.22-6.07 3.75-7.35l1.58-.52c.41-.13.8-.24 1.17-.31-.3.61-.54 1.35-.74 2.2l-.98 4.19c-.98 4.18.31 6.24 4.48 7.23l1.68.4c.58.14 1.12.23 1.62.27zM17.49 10.51c-.06 0-.12-.01-.19-.02l-4.85-1.23a.75.75 0 01.37-1.45l4.85 1.23a.748.748 0 01-.18 1.47z">
+                                                </path>
+                                                <path
+                                                    d="M14.56 13.89c-.06 0-.12-.01-.19-.02l-2.91-.74a.75.75 0 01.37-1.45l2.91.74c.4.1.64.51.54.91-.08.34-.38.56-.72.56z">
+                                                </path>
+                                            </svg>
+                                            <span class="ml-4">
+                                                Reports
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-gray-500 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main"
+                                            href="#">
+                                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                fill="currentColor" aria-hidden="true">
+                                                <path
+                                                    d="M21.66 10.44l-.98 4.18c-.84 3.61-2.5 5.07-5.62 4.77-.5-.04-1.04-.13-1.62-.27l-1.68-.4c-4.17-.99-5.46-3.05-4.48-7.23l.98-4.19c.2-.85.44-1.59.74-2.2 1.17-2.42 3.16-3.07 6.5-2.28l1.67.39c4.19.98 5.47 3.05 4.49 7.23z"
+                                                    opacity=".4"></path>
+                                                <path
+                                                    d="M15.06 19.39c-.62.42-1.4.77-2.35 1.08l-1.58.52c-3.97 1.28-6.06.21-7.35-3.76L2.5 13.28c-1.28-3.97-.22-6.07 3.75-7.35l1.58-.52c.41-.13.8-.24 1.17-.31-.3.61-.54 1.35-.74 2.2l-.98 4.19c-.98 4.18.31 6.24 4.48 7.23l1.68.4c.58.14 1.12.23 1.62.27zM17.49 10.51c-.06 0-.12-.01-.19-.02l-4.85-1.23a.75.75 0 01.37-1.45l4.85 1.23a.748.748 0 01-.18 1.47z">
+                                                </path>
+                                                <path
+                                                    d="M14.56 13.89c-.06 0-.12-.01-.19-.02l-2.91-.74a.75.75 0 01.37-1.45l2.91.74c.4.1.64.51.54.91-.08.34-.38.56-.72.56z">
+                                                </path>
+                                            </svg>
+                                            <span class="ml-4">
+                                                Comments
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            @endif
                             <p class="px-4 pt-10 text-xs font-semibold text-gray-400 uppercase">
                                 Settings
                             </p>
                             <ul class="">
-                                <li>
-                                    <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-gray-500 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main"
-                                        href="#">
-                                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                            fill="currentColor" aria-hidden="true">
-                                            <path
-                                                d="M2 12.88v-1.76c0-1.04.85-1.9 1.9-1.9 1.81 0 2.55-1.28 1.64-2.85-.52-.9-.21-2.07.7-2.59l1.73-.99c.79-.47 1.81-.19 2.28.6l.11.19c.9 1.57 2.38 1.57 3.29 0l.11-.19c.47-.79 1.49-1.07 2.28-.6l1.73.99c.91.52 1.22 1.69.7 2.59-.91 1.57-.17 2.85 1.64 2.85 1.04 0 1.9.85 1.9 1.9v1.76c0 1.04-.85 1.9-1.9 1.9-1.81 0-2.55 1.28-1.64 2.85.52.91.21 2.07-.7 2.59l-1.73.99c-.79.47-1.81.19-2.28-.6l-.11-.19c-.9-1.57-2.38-1.57-3.29 0l-.11.19c-.47.79-1.49 1.07-2.28.6l-1.73-.99a1.899 1.899 0 01-.7-2.59c.91-1.57.17-2.85-1.64-2.85-1.05 0-1.9-.86-1.9-1.9z"
-                                                opacity=".4"></path>
-                                            <path d="M12 15.25a3.25 3.25 0 100-6.5 3.25 3.25 0 000 6.5z"></path>
-                                        </svg>
-                                        <span class="ml-4">
-                                            System Settings
-                                        </span>
-                                    </a>
-                                </li>
+                                @if (auth()->user()->user_type == 'admin')
+                                    <li>
+                                        <a class="inline-flex items-center w-full px-4 py-2 mt-1 text-sm text-gray-500 transition duration-200 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-100 hover:scale-95 hover:text-main"
+                                            href="#">
+                                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                                <path
+                                                    d="M2 12.88v-1.76c0-1.04.85-1.9 1.9-1.9 1.81 0 2.55-1.28 1.64-2.85-.52-.9-.21-2.07.7-2.59l1.73-.99c.79-.47 1.81-.19 2.28.6l.11.19c.9 1.57 2.38 1.57 3.29 0l.11-.19c.47-.79 1.49-1.07 2.28-.6l1.73.99c.91.52 1.22 1.69.7 2.59-.91 1.57-.17 2.85 1.64 2.85 1.04 0 1.9.85 1.9 1.9v1.76c0 1.04-.85 1.9-1.9 1.9-1.81 0-2.55 1.28-1.64 2.85.52.91.21 2.07-.7 2.59l-1.73.99c-.79.47-1.81.19-2.28-.6l-.11-.19c-.9-1.57-2.38-1.57-3.29 0l-.11.19c-.47.79-1.49 1.07-2.28.6l-1.73-.99a1.899 1.899 0 01-.7-2.59c.91-1.57.17-2.85-1.64-2.85-1.05 0-1.9-.86-1.9-1.9z"
+                                                    opacity=".4"></path>
+                                                <path d="M12 15.25a3.25 3.25 0 100-6.5 3.25 3.25 0 000 6.5z"></path>
+                                            </svg>
+                                            <span class="ml-4">
+                                                System Settings
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
@@ -239,7 +249,9 @@
                             <div class="min-w-0 flex-1">
                                 <h2
                                     class="text-2xl font-bold text-main leading-7 sm:truncate sm:text-2xl sm:tracking-tight">
-                                    Good Day Administrator!</h2>
+                                    Good Day
+                                    {{ auth()->user()->is_admin == true ? 'Administrator' : auth()->user()->name }}!
+                                </h2>
                                 <div class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
                                     <div class="mt-2 flex space-x-1 items-center text-sm text-gray-500">
                                         <svg class="mr-1.6 h-6 w-5 flex-shrink-0 text-gray-500"

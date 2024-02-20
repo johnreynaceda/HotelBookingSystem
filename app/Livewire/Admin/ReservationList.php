@@ -4,8 +4,11 @@ namespace App\Livewire\Admin;
 
 use App\Models\Reservation;
 use App\Models\Room;
+use Carbon\Carbon;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -24,6 +27,7 @@ use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 use Filament\Forms\Components\ViewField;
+// use Filament\Tables\Columns\ViewColumn;
 
 class ReservationList extends Component implements HasForms, HasTable
 {
@@ -39,14 +43,57 @@ class ReservationList extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(Reservation::query()->whereIn('status', ['pending','accepted']))->columns([
+            ->query(Reservation::query()->whereIn('status', ['pending','accepted']))->headerActions([
+                Action::make('reserve')->label('Walk-In Transaction')->icon('heroicon-m-document-duplicate')->form([
+                    Grid::make(2)->schema([
+                        TextInput::make('fullname')->required(),
+                        TextInput::make('address')->required(),
+                        TextInput::make('contact')->required(),
+                        TextInput::make('email')->required(),
+                        TextInput::make('social_media')->required(),
+                        DatePicker::make('date_from')->required(),
+                        DatePicker::make('date_to')->required(),
+                        Select::make('room_id')->label('Room')->options(
+                            Room::all()->pluck('name', 'id')
+                        ),
+                        Select::make('status_of_payment')->label('Payment Status')->options(
+                            [
+                                'Fully Paid' => ' Fully Paid',
+                                'Downpayment' => 'Downpayment'
+                            ]
+                        )
+                    ])
+                ])->modalWidth('4xl')->action(
+                    function($record,$data){
+                    Reservation::create([
+                        'fullname' => $data['fullname'],
+                        'address' => $data['address'],
+                        'contact' => $data['contact'],
+                        'email' => $data['email'],
+                      'social_media' => $data['social_media'],
+                      'date_from' => Carbon::parse($data['date_from']),
+                      'date_to' => Carbon::parse($data['date_to']),
+                      'room_id' => $data['room_id'],
+                    'mode_of_payment' => 'Cash',
+                    'status_of_payment' => $data['status_of_payment'],
+                    'status' => 'accepted',
+                    ]);
+
+                    $this->dialog()->success(
+                        $title = 'Reservation saved',
+                        $description = 'Reservation has been saved'
+                    );
+                    }
+                )
+            ])->columns([
                 // ViewColumn::make('photo')->label('IMAGE')->view('filament.table.photo'),
                 TextColumn::make('fullname')->label('FULLNAME')->searchable(),
                 TextColumn::make('contact')->label('CONTACT')->searchable(),
-                TextColumn::make('email')->label('EMAIL')->searchable(),
+                // TextColumn::make('email')->label('EMAIL')->searchable(),
                 TextColumn::make('room.name')->label('ROOM')->searchable(),
                 TextColumn::make('date_from')->label('DATE FROM')->date()->searchable(),
                 TextColumn::make('date_to')->label('DATE TO')->date()->searchable(),
+                ViewColumn::make('status')->label('STATUS')->view('filament.table.status')
             ])
             ->filters([
                 // ...

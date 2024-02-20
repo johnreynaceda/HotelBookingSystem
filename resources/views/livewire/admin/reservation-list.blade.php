@@ -46,9 +46,15 @@
                 </div>
                 <div>
                     <h1 class=" text-xs font-semibold uppercase">proof of payment</h1>
-                    <a href="{{ Storage::url($reservation_data->payment_proof ?? '') }}" target="_blank">
-                        <img src="{{ Storage::url($reservation_data->payment_proof ?? '') }}" alt="">
-                    </a>
+
+
+                    @if ($reservation_data->payment_proof ?? '')
+                        <a href="{{ Storage::url($reservation_data->payment_proof ?? '') }}" target="_blank">
+                            <img src="{{ Storage::url($reservation_data->payment_proof ?? '') }}" alt="">
+                        </a>
+                    @else
+                        <h1 class="text-sm text-red-500">No proof of payment because the transaction is WALK IN</h1>
+                    @endif
                 </div>
             </div>
 

@@ -25,7 +25,7 @@ Route::get('/dashboard', function () {
     if (auth()->user()->is_admin == true) {
         return redirect()->route('admin.dashboard');
     }else{
-        dd('user');
+        return redirect()->route('user.dashboard');
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -46,6 +46,23 @@ Route::prefix('administrator')->group(
         Route::get('/reservation', function () {
             return view('admin.reservation');
         })->name('admin.reservation');
+    }
+);
+
+
+//user routes
+Route::prefix('user')->group(
+    function(){
+        Route::get('/dashboard', function () {
+            return view('user.index');
+        })->name('user.dashboard');
+        Route::get('/rooms', function () {
+            return view('user.room');
+        })->name('user.room');
+        Route::get('/reservation', function () {
+            return view('user.reservation');
+        })->name('user.reservation');
+
     }
 );
 

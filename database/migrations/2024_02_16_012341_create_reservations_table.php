@@ -22,7 +22,7 @@ return new class extends Migration
             $table->date('date_to');
             $table->foreignId('room_id');
             $table->string('mode_of_payment');
-            $table->string('payment_proof');
+            $table->string('payment_proof')->nullable();
             $table->string('status_of_payment');
             $table->string('status')->default('pending');
             $table->timestamps();
