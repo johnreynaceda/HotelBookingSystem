@@ -46,6 +46,9 @@ Route::prefix('administrator')->group(
         Route::get('/reservation', function () {
             return view('admin.reservation');
         })->name('admin.reservation');
+        Route::get('/report', function () {
+            return view('admin.report');
+        })->name('admin.report');
     }
 );
 
