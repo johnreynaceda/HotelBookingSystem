@@ -85,7 +85,7 @@
                         alt="">
                     <div class="my-3 ">
                         <h1 class="font-semibold text-lg text-gray-700">{{ $item->name }}</h1>
-                        <h1 class="font-medium text-yellow-600">&#8369;{{ number_format($item->price, 2) }}/hr</h1>
+                        <h1 class="font-medium text-yellow-600">&#8369;{{ number_format($item->price, 2) }}/day</h1>
                         <p>{{ $item->description }}</p>
                     </div>
                 </div>

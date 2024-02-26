@@ -13,16 +13,19 @@
                 <div class="2xl:col-span-4">
                     <h1 class="text-main font-bold">PREFERRED DATE</h1>
                 </div>
-                <x-datetime-picker label="Date From" without-timezone without-time wire:model="date_from" />
-                <x-datetime-picker label="Date To" without-timezone without-time wire:model="date_to" />
+                <x-datetime-picker label="Date From" :min="now()" without-timezone without-time
+                    wire:model.live="date_from" />
+                <x-datetime-picker label="Date To" :min="$date_from" without-timezone without-time
+                    wire:model="date_to" />
             </div>
         </div>
         <div class="border rounded-xl p-5 border-main/85">
             <h1 class="text-main font-bold">RESERVED DATES</h1>
             <ul class="mt-2 space-y-1">
                 @forelse ($reserves as $item)
-                    <li>{{ \Carbon\Carbon::parse($date_from)->format('F d, Y') }} -
-                        {{ \Carbon\Carbon::parse($date_to)->format('F d, Y') }}</li>
+                    <li>{{ \Carbon\Carbon::parse($item->date_from)->format('F d, Y') }} -
+                        {{ \Carbon\Carbon::parse($item->date_to)->format('F d, Y') }} <span
+                            class="font-bold uppercase text-main">({{ $item->room->name }})</span></li>
                 @empty
                     <span class="text-gray-400"> No Reserve dates yet!</span>
                 @endforelse
