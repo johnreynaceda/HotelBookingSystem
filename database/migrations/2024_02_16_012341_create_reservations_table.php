@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('mode_of_payment');
             $table->string('payment_proof')->nullable();
             $table->string('status_of_payment');
+            $table->string('amount')->nullable();
             $table->string('status')->default('pending');
             $table->timestamps();
         });

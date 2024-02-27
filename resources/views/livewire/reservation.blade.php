@@ -13,7 +13,7 @@
                 <div class="2xl:col-span-4">
                     <h1 class="text-main font-bold">PREFERRED DATE</h1>
                 </div>
-                <x-datetime-picker label="Date From" :min="now()" without-timezone without-time
+                <x-datetime-picker label="Date From" :min="now()->subDays(1)" without-timezone without-time
                     wire:model.live="date_from" />
                 <x-datetime-picker label="Date To" :min="$date_from" without-timezone without-time
                     wire:model="date_to" />
@@ -34,31 +34,48 @@
         </div>
     </div>
 
-    <div class="grid 2xl:grid-cols-4 grid-cols-1 2xl:gap-5 mt-5 gap-3">
-        <x-native-select label="Select Room" wire:model="room_id">
-            <option>Select an Option</option>
-            @forelse (\App\Models\Room::get() as $item)
-                <option value="{{ $item->id }}">{{ $item->name }}</option>
-            @empty
-            @endforelse
-        </x-native-select>
-    </div>
-    <div class="grid 2xl:grid-cols-4 grid-cols-1 2xl:gap-5 mt-5 gap-3">
-        <x-native-select label="Mode of Payment" wire:model="mode_of_payment">
-            <option>Select an Option</option>
-            <option>Paymaya</option>
-            <option>Bank</option>
-            <option>Gcash</option>
-        </x-native-select>
-        <x-native-select label="Payment Status" wire:model="payment_status">
-            <option>Select an Option</option>
-            <option>Fully Paid</option>
-            <option>Downpayment</option>
-        </x-native-select>
-    </div>
-    <div class="grid 2xl:grid-cols-4 grid-cols-1 2xl:gap-5 mt-5 gap-3">
-        <div class="col-span-2">
-            {{ $this->form }}
+    <div class="grid grid-cols-2 gap-5">
+        <div>
+            <div class="grid 2xl:grid-cols-2 grid-cols-1 2xl:gap-5 mt-5 gap-3">
+                <x-native-select label="Select Room" wire:model.live="room_id">
+                    <option>Select an Option</option>
+                    @forelse (\App\Models\Room::get() as $item)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    @empty
+                    @endforelse
+                </x-native-select>
+                @if ($room_id)
+                    <x-input label="Price" disabled
+                        value="₱{{ number_format(\App\Models\Room::where('id', $room_id)->first()->price, 2) }} per day" />
+                @endif
+
+            </div>
+            <div class="grid 2xl:grid-cols-2 grid-cols-1 2xl:gap-5 mt-5 gap-3">
+                <x-native-select label="Mode of Payment" wire:model="mode_of_payment">
+                    <option>Select an Option</option>
+                    <option>Paymaya</option>
+                    <option>Bank</option>
+                    <option>Gcash</option>
+                </x-native-select>
+                <x-native-select label="Payment Status" wire:model.live="payment_status">
+                    <option>Select an Option</option>
+                    <option>Fully Paid</option>
+                    <option>Downpayment</option>
+                </x-native-select>
+                @if ($payment_status == 'Downpayment')
+                    <div></div>
+                    <x-input prefix="₱" wire:model="amount" label="Amount of Downpayment" />
+                @endif
+
+            </div>
+            <div class="grid 2xl:grid-cols-1 grid-cols-1 2xl:gap-5 mt-5 gap-3">
+                <div class="col-span-2">
+                    {{ $this->form }}
+                </div>
+            </div>
+        </div>
+        <div class="mt-5">
+            {{-- sdsdsd --}}
         </div>
     </div>
     <div class="mt-5">

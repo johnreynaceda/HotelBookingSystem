@@ -20,7 +20,7 @@ class Reservation extends Component implements HasForms
     use Actions;
     public $payment= [];
 
-    public $fullname, $address, $contact, $email, $social_media, $date_from, $date_to, $room_id, $mode_of_payment, $payment_status;
+    public $fullname, $address, $contact, $email, $social_media, $date_from, $date_to, $room_id, $mode_of_payment, $payment_status, $amount;
 
     public function form(Form $form): Form
     {
@@ -57,6 +57,7 @@ class Reservation extends Component implements HasForms
                'room_id' => $this->room_id,
              'mode_of_payment' => $this->mode_of_payment,
                'status_of_payment' => $this->payment_status,
+               'amount' => $this->amount,
                'payment_proof' => $value->store('payment_proof', 'public'),
             ]);
         }

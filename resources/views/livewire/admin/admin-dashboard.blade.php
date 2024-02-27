@@ -1,6 +1,5 @@
 <div>
     {{ $this->table }}
-
     <x-modal wire:model.defer="view_modal" align="center">
         <x-card title="View Details">
             <div class="p-5 grid grid-cols-2 gap-5">
@@ -44,6 +43,11 @@
                     <h1 class=" text-xs font-semibold uppercase">payment status</h1>
                     <h1>{{ $reservation_data->status_of_payment ?? '' }}</h1>
                 </div>
+                <div></div>
+                <div>
+                    <h1 class=" text-xs font-semibold uppercase">Amount Paid</h1>
+                    <h1>&#8369;{{ number_format($reservation_data->amount ?? 0, 2) }}</h1>
+                </div>
                 <div>
                     <h1 class=" text-xs font-semibold uppercase">proof of payment</h1>
 
@@ -60,20 +64,6 @@
 
             <x-slot name="footer">
                 <div class="flex justify-end gap-x-4">
-                    <x-button flat label="Cancel" x-on:click="close" />
-                </div>
-            </x-slot>
-        </x-card>
-    </x-modal>
-
-    <x-modal wire:model.defer="payment_modal" max-width="lg" align="center">
-        <x-card title="Add Payment">
-            <div>
-                <x-input label="Amount" wire:model="payment_amount" type="number" />
-            </div>
-            <x-slot name="footer">
-                <div class="flex justify-end gap-x-4">
-                    <x-button label="Checkout now" slate wire:click="checkout" spinner="checkout" />
                     <x-button flat label="Cancel" x-on:click="close" />
                 </div>
             </x-slot>

@@ -27,7 +27,6 @@ use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 use Filament\Forms\Components\ViewField;
-// use Filament\Tables\Columns\ViewColumn;
 
 class ReservationList extends Component implements HasForms, HasTable
 {
@@ -37,55 +36,17 @@ class ReservationList extends Component implements HasForms, HasTable
 
     public $view_modal = false;
     public $reservation_data;
+    public $payment_modal = false;
+
+    public $reservation_id;
+    public $payment_amount;
 
 
 
     public function table(Table $table): Table
     {
         return $table
-            ->query(Reservation::query()->whereIn('status', ['pending','accepted']))->headerActions([
-                Action::make('reserve')->label('Walk-In Transaction')->icon('heroicon-m-document-duplicate')->form([
-                    Grid::make(2)->schema([
-                        TextInput::make('fullname')->required(),
-                        TextInput::make('address')->required(),
-                        TextInput::make('contact')->required(),
-                        TextInput::make('email')->required(),
-                        TextInput::make('social_media')->required(),
-                        DatePicker::make('date_from')->required(),
-                        DatePicker::make('date_to')->required(),
-                        Select::make('room_id')->label('Room')->options(
-                            Room::all()->pluck('name', 'id')
-                        ),
-                        Select::make('status_of_payment')->label('Payment Status')->options(
-                            [
-                                'Fully Paid' => ' Fully Paid',
-                                'Downpayment' => 'Downpayment'
-                            ]
-                        )
-                    ])
-                ])->modalWidth('4xl')->action(
-                    function($record,$data){
-                    Reservation::create([
-                        'fullname' => $data['fullname'],
-                        'address' => $data['address'],
-                        'contact' => $data['contact'],
-                        'email' => $data['email'],
-                      'social_media' => $data['social_media'],
-                      'date_from' => Carbon::parse($data['date_from']),
-                      'date_to' => Carbon::parse($data['date_to']),
-                      'room_id' => $data['room_id'],
-                    'mode_of_payment' => 'Cash',
-                    'status_of_payment' => $data['status_of_payment'],
-                    'status' => 'accepted',
-                    ]);
-
-                    $this->dialog()->success(
-                        $title = 'Reservation saved',
-                        $description = 'Reservation has been saved'
-                    );
-                    }
-                )
-            ])->columns([
+            ->query(Reservation::query()->whereIn('status', ['accepted']))->columns([
                 // ViewColumn::make('photo')->label('IMAGE')->view('filament.table.photo'),
                 TextColumn::make('fullname')->label('FULLNAME')->searchable(),
                 TextColumn::make('contact')->label('CONTACT')->searchable(),
@@ -106,25 +67,38 @@ class ReservationList extends Component implements HasForms, HasTable
                     }
                 ),
                 ActionGroup::make([
-                   Action::make('approve')->color('success')->icon('heroicon-o-hand-thumb-up')->action(
+                   Action::make('checkout')->color('danger')->icon('heroicon-o-arrows-pointing-out')->action(
                     function($record){
-                        $record->update([
-                            'status' => 'accepted'
-                        ]);
+                        if ($record->status_of_payment == 'Downpayment') {
+                            $this->reservation_id = $record->id;
+                          $this->payment_modal = true;
+                        }else{
+                            $record->update([
+                              'status' => 'checkout'
+                            ]);
+                        }
                     }
-                   ),
-                   Action::make('reject')->color('danger')->icon('heroicon-o-hand-thumb-down')->action(
-                    function($record){
-                        $record->update([
-                            'status' => 'rejected'
-                        ]);
-                    }
-                   ),
+                   )
                 ]),
             ])
             ->bulkActions([
                 // ...
             ])->emptyStateDescription('Once you write the first room, it will appear here.')->emptyStateHeading('No Rooms yet!')->emptyStateIcon('heroicon-s-home-modern');
+    }
+
+    public function checkout(){
+    sleep(2);
+    $data = Reservation::where('id', $this->reservation_id)->first();
+
+    $data->update([
+        'amount' => $data->amount + $this->payment_amount,
+        'status' => 'checkout',
+    ]);
+
+    $this->dialog()->success(
+        $title = 'Checkout',
+        $description = 'Guest has successfully checkout'
+    );
     }
 
     public function render()
