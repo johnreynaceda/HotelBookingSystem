@@ -41,7 +41,7 @@ class AdminDashboard extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(Reservation::query()->whereIn('status', ['pending','accepted']))->headerActions([
+            ->query(Reservation::query()->whereIn('status', ['pending']))->headerActions([
                 Action::make('reserve')->label('Walk-In Transaction')->icon('heroicon-m-document-duplicate')->form([
                     Grid::make(2)->schema([
                         TextInput::make('fullname')->required(),

@@ -68,7 +68,18 @@
 
     <x-modal wire:model.defer="payment_modal" max-width="lg" align="center">
         <x-card title="Add Payment">
-            <div>
+            Room Rate: &#8369;{{ $reservation_data->room->price ?? '' }}.00 |
+            {{ \Carbon\Carbon::parse($date_to ?? '')->diffInDays(\Carbon\Carbon::parse($date_froms ?? '')) }}
+            days</h1>
+            <h1>Total Payment:
+                <span class="text-red-600">
+                    &#8369;{{ number_format((int) ($reservation_data->room->price ?? '') * (int) \Carbon\Carbon::parse($date_to ?? '')->diffInDays(\Carbon\Carbon::parse($date_froms ?? '')), 2) }}</span>
+            </h1>
+            <h1 class="mt-2">Total Paid: &#8369;{{ $reservation_data->amount ?? '' }}.00</h1>
+            <h1 class="mt-2">Total Balance:
+                &#8369;{{ number_format((int) ($reservation_data->room->price ?? '') * (int) \Carbon\Carbon::parse($date_to ?? '')->diffInDays(\Carbon\Carbon::parse($date_froms ?? '')) - ((int) ($reservation_data->amount ?? '')), 2) }}
+            </h1>
+            <div class="mt-5">
                 <x-input label="Amount" wire:model="payment_amount" type="number" />
             </div>
             <x-slot name="footer">

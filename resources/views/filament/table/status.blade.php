@@ -8,6 +8,10 @@
             <x-badge label="Accepted" rounded positive flat />
         @break
 
+        @case('checkout')
+            <x-badge label="Checkout" rounded negative flat />
+        @break
+
         @default
     @endswitch
 </div>
