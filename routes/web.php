@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,20 +20,26 @@ Route::get('/', function () {
 Route::get('/reservation', function () {
     return view('pages.reservation');
 })->name('reservation');
+Route::get('/FAQ', function () {
+    return view('pages.faq');
+})->name('faq');
+
+Route::get('/comment', function () {
+    return view('pages.comment');
+})->name('comment');
+
 
 Route::get('/dashboard', function () {
     if (auth()->user()->is_admin == true) {
         return redirect()->route('admin.dashboard');
-    }else{
+    } else {
         return redirect()->route('user.dashboard');
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
-
 //admin routes
 Route::prefix('administrator')->group(
-    function(){
+    function () {
         Route::get('/dashboard', function () {
             return view('admin.index');
         })->name('admin.dashboard');
@@ -49,13 +55,18 @@ Route::prefix('administrator')->group(
         Route::get('/report', function () {
             return view('admin.report');
         })->name('admin.report');
+        Route::get('/faq', function () {
+            return view('admin.faq');
+        })->name('admin.faq');
+        Route::get('/comment', function () {
+            return view('admin.comment');
+        })->name('admin.comment');
     }
 );
 
-
 //user routes
 Route::prefix('user')->group(
-    function(){
+    function () {
         Route::get('/dashboard', function () {
             return view('user.index');
         })->name('user.dashboard');
@@ -75,4 +86,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

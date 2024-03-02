@@ -3,8 +3,9 @@
         class="flex-col items-center flex-grow hidden md:pb-0 md:flex md:justify-end md:flex-row">
 
 
-        <div class="inline-flex items-center gap-2 list-none lg:ml-auto">
-            <a class="px-2 py-2 text-sm text-gray-500 lg:px-6 md:px-3 hover:text-main" href="#">
+        <div
+            class="{{ request()->routeIs('welcome') ? 'text-main font-medium' : 'text-gray-500' }} px-2 py-2 text-sm  lg:px-6 md:px-3 hover:text-main lg:ml-auto">
+            <a class="px-2 py-2 text-sm text-gray-500 lg:px-6 md:px-3 hover:text-main" href="{{ route('welcome') }}">
                 Home
             </a>
             <a class="{{ request()->routeIs('reservation') ? 'text-main font-medium' : 'text-gray-500' }} px-2 py-2 text-sm  lg:px-6 md:px-3 hover:text-main lg:ml-auto"
@@ -12,11 +13,13 @@
                 Reservation
             </a>
 
-            <a class="px-2 py-2 text-sm text-gray-500 lg:px-6 md:px-3 hover:text-main" href="#">
+            <a class="{{ request()->routeIs('faq') ? 'text-main font-medium' : 'text-gray-500' }} px-2 py-2 text-sm  lg:px-6 md:px-3 hover:text-main lg:ml-auto"
+                href="{{ route('faq') }}">
                 FAQ
             </a>
 
-            <a class="px-2 py-2 text-sm text-gray-500 lg:px-6 md:px-3 hover:text-main" href="#">
+            <a class="{{ request()->routeIs('comment') ? 'text-main font-medium' : 'text-gray-500' }} px-2 py-2 text-sm  lg:px-6 md:px-3 hover:text-main lg:ml-auto"
+                href="{{ route('comment') }}">
                 Comments
             </a>
 
