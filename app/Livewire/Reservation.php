@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Room;
 use Carbon\Carbon;
 use Filament\Forms\Components\FileUpload;
 use Livewire\Component;
@@ -22,12 +23,21 @@ class Reservation extends Component implements HasForms
 
     public $fullname, $address, $contact, $email, $social_media, $date_from, $date_to, $room_id, $mode_of_payment, $payment_status, $amount;
 
+    public $number_of_days;
     public function form(Form $form): Form
     {
         return $form
             ->schema([
                FileUpload::make('payment')->label('Proof of Payment'),
             ]);
+    }
+
+    public function updatedPaymentStatus(){
+        if($this->payment_status == 'Fully Paid'){
+          $this->number_of_days = Carbon::parse($this->date_to)->diffInDays(Carbon::parse($this->date_from));
+         $this->amount = Room::where('id', $this->room_id)->first()->price * $this->number_of_days;
+
+        }
     }
 
     public function submitReservation(){

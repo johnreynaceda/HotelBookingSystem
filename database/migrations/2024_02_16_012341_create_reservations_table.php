@@ -21,11 +21,14 @@ return new class extends Migration
             $table->date('date_from');
             $table->date('date_to');
             $table->foreignId('room_id');
-            $table->string('mode_of_payment');
+            $table->string('mode_of_payment')->nullable();
             $table->string('payment_proof')->nullable();
             $table->string('status_of_payment');
             $table->string('amount')->nullable();
+            $table->string('remarks')->nullable();
+            $table->string('assist_by')->nullable();
             $table->string('status')->default('pending');
+
             $table->timestamps();
         });
     }

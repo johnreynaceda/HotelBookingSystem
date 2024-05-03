@@ -40,10 +40,10 @@
                             {{ $item->date_to }}
                         </td>
                         <td class="border-2  text-gray-700  px-3 py-1">
-                            &#8369;{{ number_format($item->room->price, 2) }}
+                            &#8369;{{ number_format($item->amount, 2) }}
                         </td>
-                        <td class="border-2  text-gray-700  px-3 py-1"></td>
-                        <td class="border-2  text-gray-700  px-3 py-1"></td>
+                        <td class="border-2  text-gray-700  px-3 py-1">{{ $item->remarks }}</td>
+                        <td class="border-2  text-gray-700  px-3 py-1">{{ $item->assist_by }}</td>
                     </tr>
                 @endforeach
                 <tr>
@@ -56,7 +56,7 @@
                         @php
                             $total = 0;
                             foreach ($reservations as $record) {
-                                $total += $record->room->price;
+                                $total += $record->amount;
                             }
                             echo '&#8369;' . number_format($total, 2);
                         @endphp

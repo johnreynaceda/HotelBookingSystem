@@ -10,7 +10,7 @@ class Report extends Component
     public function render()
     {
         return view('livewire.admin.report',[
-            'reservations' => Reservation::where('status', 'accepted')->get(),
+            'reservations' => Reservation::where('status', 'checkout')->get(),
         ]);
     }
 }

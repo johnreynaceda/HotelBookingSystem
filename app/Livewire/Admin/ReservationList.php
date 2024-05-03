@@ -29,7 +29,7 @@ class ReservationList extends Component implements HasForms, HasTable
 
     public $reservation_id;
     public $date_froms, $date_to;
-    public $payment_amount;
+    public $payment_amount, $remarks;
 
     public function table(Table $table): Table
     {
@@ -71,6 +71,7 @@ class ReservationList extends Component implements HasForms, HasTable
                             } else {
                                 $record->update([
                                     'status' => 'checkout',
+                                    'assist_by' => auth()->user()->name,
                                 ]);
                             }
                         }
@@ -87,8 +88,11 @@ class ReservationList extends Component implements HasForms, HasTable
         sleep(2);
         $data = Reservation::where('id', $this->reservation_id)->first();
 
+        // dd($data->amount + $this->payment_amount);
         $data->update([
             'amount' => $data->amount + $this->payment_amount,
+            'remarks' => $this->remarks,
+            'assist_by' => auth()->user()->name,
             'status' => 'checkout',
         ]);
         $this->payment_modal = false;

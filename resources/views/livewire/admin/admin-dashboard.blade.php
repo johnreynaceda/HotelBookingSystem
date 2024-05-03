@@ -69,4 +69,114 @@
             </x-slot>
         </x-card>
     </x-modal>
+
+    <x-modal wire:model.defer="walkin_modal" max-width="5xl">
+        <x-card title="Walk In Transaction">
+            <div>
+                <div class="grid 2xl:grid-cols-4 grid-cols-1 2xl:gap-5 gap-3">
+                    <x-input label="Fullname" wire:model="fullname" />
+                    <x-input label="Present Address" wire:model="address" />
+                    <x-input label="Contact" wire:model="contact" />
+                    <x-input label="Email" wire:model="email" />
+                    <x-input label="Social Media Account" wire:model="social_media" />
+                </div>
+
+                <div class="grid 2xl:grid-cols-1 mt-5 gap-5">
+                    <div class=" ">
+                        <div
+                            class="p-5 rounded-xl border-main/85 border grid 2xl:grid-cols-2 grid-cols-1 2xl:gap-5 gap-2">
+                            <div class="2xl:col-span-4">
+                                <h1 class="text-main font-bold">PREFERRED DATE</h1>
+                            </div>
+                            <x-datetime-picker label="Date From" :min="now()->subDays(1)" without-timezone without-time
+                                wire:model.live="date_from" />
+                            <x-datetime-picker label="Date To" :min="$date_from" without-timezone without-time
+                                wire:model="date_to" />
+                        </div>
+                    </div>
+                    {{-- <div class="border rounded-xl p-5 border-main/85">
+                        <h1 class="text-main font-bold">RESERVED DATES</h1>
+                        <ul class="mt-2 space-y-1">
+                            @forelse ($reserves as $item)
+                                <li>{{ \Carbon\Carbon::parse($item->date_from)->format('F d, Y') }} -
+                                    {{ \Carbon\Carbon::parse($item->date_to)->format('F d, Y') }} <span
+                                        class="font-bold uppercase text-main">({{ $item->room->name }})</span></li>
+                            @empty
+                                <span class="text-gray-400"> No Reserve dates yet!</span>
+                            @endforelse
+
+                        </ul>
+                    </div> --}}
+                </div>
+
+                <div class="grid grid-cols-2 gap-5">
+                    <div>
+                        <div class="grid 2xl:grid-cols-2 grid-cols-1 2xl:gap-5 mt-5 gap-3">
+                            <x-native-select label="Select Room" wire:model.live="room_id">
+                                <option>Select an Option</option>
+                                @forelse (\App\Models\Room::get() as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @empty
+                                @endforelse
+                            </x-native-select>
+                            @if ($room_id)
+                                <x-input label="Price" disabled
+                                    value="₱{{ number_format(\App\Models\Room::where('id', $room_id)->first()->price, 2) }} per day" />
+                            @endif
+
+                        </div>
+                        <div class="grid 2xl:grid-cols-2 grid-cols-1 2xl:gap-5 mt-5 gap-3">
+                            {{-- <x-native-select label="Mode of Payment" wire:model="mode_of_payment">
+                                <option>Select an Option</option>
+                                <option>Paymaya</option>
+                                <option>Bank</option>
+                                <option>Gcash</option>
+                            </x-native-select> --}}
+                            <x-native-select label="Payment Status" wire:model.live="payment_status">
+                                <option>Select an Option</option>
+                                <option>Fully Paid</option>
+                                <option>Downpayment</option>
+                            </x-native-select>
+                            @if ($payment_status)
+                                @if ($payment_status == 'Downpayment')
+                                    <div></div>
+                                    <x-input prefix="₱" wire:model="amount" label="Amount of Downpayment" />
+                                @else
+                                    <div></div>
+                                    <div>
+                                        <h1 class=" text-xs font-semibold uppercase">Room
+                                            amount({{ \App\Models\Room::where('id', $room_id)->first()->price ?? '' }})
+                                            * Number of
+                                            Days({{ $number_of_days }}) = </h1>
+                                        <h1 class="font-bold text-red-500">&#8369;{{ number_format($this->amount, 2) }}
+                                        </h1>
+                                    </div>
+                                @endif
+                            @endif
+
+                        </div>
+                        <div class="grid 2xl:grid-cols-1 grid-cols-1 2xl:gap-5 mt-5 gap-3">
+                            <div class="col-span-2">
+                                {{ $this->form }}
+                            </div>
+                        </div>
+                        <div class="mt-5">
+                            <x-button label="Submit Reservation" dark right-icon="save" spinner="submitReservation"
+                                wire:click="submitReservation" />
+                        </div>
+                    </div>
+                    <div class="mt-5">
+
+                    </div>
+                </div>
+            </div>
+
+            <x-slot name="footer">
+                <div class="flex justify-end gap-x-4">
+                    <x-button flat label="Cancel" x-on:click="close" />
+
+                </div>
+            </x-slot>
+        </x-card>
+    </x-modal>
 </div>

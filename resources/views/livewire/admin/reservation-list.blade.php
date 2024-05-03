@@ -40,9 +40,14 @@
                     <h1 class=" text-xs font-semibold uppercase">mode of payment</h1>
                     <h1>{{ $reservation_data->mode_of_payment ?? '' }}</h1>
                 </div>
+
                 <div>
                     <h1 class=" text-xs font-semibold uppercase">payment status</h1>
                     <h1>{{ $reservation_data->status_of_payment ?? '' }}</h1>
+                </div>
+                <div>
+                    <h1 class=" text-xs font-semibold uppercase">Amount Paid</h1>
+                    <h1>&#8369;{{ $reservation_data->amount ?? '' }}.00</h1>
                 </div>
                 <div>
                     <h1 class=" text-xs font-semibold uppercase">proof of payment</h1>
@@ -81,6 +86,7 @@
             </h1>
             <div class="mt-5">
                 <x-input label="Amount" wire:model="payment_amount" type="number" />
+                <x-textarea wire:model="remarks" label="Remarks" placeholder="Your remarks" />
             </div>
             <x-slot name="footer">
                 <div class="flex justify-end gap-x-4">

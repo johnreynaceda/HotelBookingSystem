@@ -35,52 +35,82 @@ class AdminDashboard extends Component implements HasForms, HasTable
     use Actions;
 
     public $view_modal = false;
+
+    public $fullname, $address, $contact, $email, $social_media, $date_from, $date_to, $room_id, $mode_of_payment, $payment_status, $amount;
+    public $walkin_modal = false;
     public $reservation_data;
 
+    public $number_of_days;
+
+    public function updatedPaymentStatus(){
+        if($this->payment_status == 'Fully Paid'){
+          $this->number_of_days = Carbon::parse($this->date_to)->diffInDays(Carbon::parse($this->date_from));
+         $this->amount = Room::where('id', $this->room_id)->first()->price * $this->number_of_days;
+
+        }
+    }
+
+    public function submitReservation(){
+        $this->validate([
+            'fullname' =>'required',
+            'address' =>'required',
+            'contact' =>'required',
+            'email' =>'required',
+         'social_media' =>'required',
+            'date_from' =>'required',
+            'date_to' =>'required',
+            'room_id' =>'required',
+        //  'mode_of_payment' =>'required',
+            'payment_status' =>'required',
+            // 'payment' => 'required',
+        ]);
+
+       Reservation::create([
+            'fullname' => $this->fullname,
+            'address' => $this->address,
+            'contact' => $this->contact,
+            'email' => $this->email,
+          'social_media' => $this->social_media,
+           'date_from' => Carbon::parse($this->date_from),
+           'date_to' => Carbon::parse($this->date_to),
+           'room_id' => $this->room_id,
+        //  'mode_of_payment' => $this->mode_of_payment,
+           'status_of_payment' => $this->payment_status,
+           'amount' => $this->amount,
+           'status' => 'accepted',
+        //    'payment_proof' => $value->store('payment_proof', 'public'),
+        ]);
+        $this->dialog()->success(
+
+            $title = 'Walk In  Submit',
+
+            $description = 'Walk In was successfully submitted'
+
+        );
+        $this->walkin_modal = false;
+        $this->reset('fullname',
+        'address',
+        'contact',
+        'email',
+      'social_media',
+       'date_from',
+       'date_to',
+       'room_id',
+
+       'payment_status',
+       );
+
+        sleep(3);
+
+    }
 
     public function table(Table $table): Table
     {
         return $table
             ->query(Reservation::query()->whereIn('status', ['pending']))->headerActions([
-                Action::make('reserve')->label('Walk-In Transaction')->icon('heroicon-m-document-duplicate')->form([
-                    Grid::make(2)->schema([
-                        TextInput::make('fullname')->required(),
-                        TextInput::make('address')->required(),
-                        TextInput::make('contact')->required(),
-                        TextInput::make('email')->required(),
-                        TextInput::make('social_media')->required(),
-                        DatePicker::make('date_from')->required(),
-                        DatePicker::make('date_to')->required(),
-                        Select::make('room_id')->label('Room')->options(
-                            Room::all()->pluck('name', 'id')
-                        ),
-                        Select::make('status_of_payment')->label('Payment Status')->options(
-                            [
-                                'Fully Paid' => ' Fully Paid',
-                                'Downpayment' => 'Downpayment'
-                            ]
-                        )
-                    ])
-                ])->modalWidth('4xl')->action(
-                    function($record,$data){
-                    Reservation::create([
-                        'fullname' => $data['fullname'],
-                        'address' => $data['address'],
-                        'contact' => $data['contact'],
-                        'email' => $data['email'],
-                      'social_media' => $data['social_media'],
-                      'date_from' => Carbon::parse($data['date_from']),
-                      'date_to' => Carbon::parse($data['date_to']),
-                      'room_id' => $data['room_id'],
-                    'mode_of_payment' => 'Cash',
-                    'status_of_payment' => $data['status_of_payment'],
-                    'status' => 'accepted',
-                    ]);
-
-                    $this->dialog()->success(
-                        $title = 'Reservation saved',
-                        $description = 'Reservation has been saved'
-                    );
+                Action::make('reserve')->label('Walk-In Transaction')->icon('heroicon-m-document-duplicate')->action(
+                    function($record){
+                       $this->walkin_modal = true;
                     }
                 )
             ])->columns([

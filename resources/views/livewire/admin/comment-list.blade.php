@@ -1,6 +1,6 @@
 <div>
 
-    <section class="py-20 sm:py-32">
+    {{-- <section class="py-20 sm:py-32">
         <ul role="list" class="grid  grid-cols-3 gap-6 mx-auto sm:gap-8 lg:max-w-none lg:grid-cols-3">
             @foreach ($comments as $item)
                 <li>
@@ -33,5 +33,6 @@
             @endforeach
 
         </ul>
-    </section>
+    </section> --}}
+    {{ $this->table }}
 </div>
